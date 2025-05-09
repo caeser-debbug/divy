@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DivyTransfert - Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --primary-color: #0057a5;
+            --secondary-color: #ff6b35;
+            --accent-color: #1485e0;
+            --light-color: #f8fafc;
+            --dark-color: #1e3a5c;
+        }
+        
+        .bg-primary { background-color: var(--primary-color); }
+        .bg-secondary { background-color: var(--secondary-color); }
+        .bg-accent { background-color: var(--accent-color); }
+        .text-primary { color: var(--primary-color); }
+        .text-secondary { color: var(--secondary-color); }
+        .border-primary { border-color: var(--primary-color); }
+        .border-secondary { border-color: var(--secondary-color); }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #004a8c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e55a2a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 40;
+        }
+        
+        .main-content {
+            margin-left: 16rem;
+        }
+        
+        .transaction-item {
+            transition: all 0.2s ease;
+        }
+        
+        .transaction-item:hover {
+            background-color: rgba(0, 87, 165, 0.05);
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-method-card {
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .payment-method-card.active {
+            border-color: var(--primary-color);
+            background-color: rgba(0, 87, 165, 0.05);
+        }
+        
+        .payment-method-card:hover:not(.active) {
+            border-color: #e2e8f0;
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 30;
+            }
+            
+            .mobile-overlay.open {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Mobile Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 lg:hidden z-20">
+        <div class="flex justify-around">
+            <a href="#" class="flex flex-col items-center">
+                <i class="fas fa-home text-secondary"></i>
+                <span class="text-xs mt-1">Accueil</span>
+            </a>
+            <a href="#" class="flex flex-col items-center">
+                <i class="fas fa-exchange-alt text-gray-400"></i>
+                <span class="text-xs mt-1">Transferts</span>
+            </a>
+            <a href="#" class="flex flex-col items-center">
+                <i class="fas fa-credit-card text-gray-400"></i>
+                <span class="text-xs mt-1">Paiements</span>
+            </a>
+            <a href="#" class="flex flex-col items-center">
+                <i class="fas fa-history text-gray-400"></i>
+                <span class="text-xs mt-1">Historique</span>
+            </a>
+            <a href="#" class="flex flex-col items-center">
+                <i class="fas fa-user text-gray-400"></i>
+                <span class="text-xs mt-1">Profil</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar bg-white shadow-lg w-64 hidden lg:block">
+        <div class="p-6">
+            <div class="text-2xl font-bold mb-10">
+                <span class="text-primary">Divy</span><span class="text-secondary">Transfert</span>
+            </div>
+            
+            <nav class="mt-8">
+                <div class="space-y-2">
+                    <a href="#" class="flex items-center px-4 py-3 text-primary bg-blue-50 rounded-lg">
+                        <i class="fas fa-home mr-3"></i>
+                        <span>Tableau de bord</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-primary rounded-lg">
+                        <i class="fas fa-exchange-alt mr-3"></i>
+                        <span>Transferts</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-primary rounded-lg">
+                        <i class="fas fa-credit-card mr-3"></i>
+                        <span>Paiements</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-primary rounded-lg">
+                        <i class="fas fa-user-friends mr-3"></i>
+                        <span>Bénéficiaires</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-primary rounded-lg">
+                        <i class="fas fa-history mr-3"></i>
+                        <span>Historique</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-primary rounded-lg">
+                        <i class="fas fa-cog mr-3"></i>
+                        <span>Paramètres</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="absolute bottom-0 left-0 right-0 p-6">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                    <img src="/api/placeholder/40/40" alt="Profil" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <p class="font-medium">Abdoulaye O.</p>
+                    <p class="text-xs text-gray-500">Compte personnel</p>
+                </div>
+            </div>
+            <a href="#" class="flex items-center text-gray-700 hover:text-primary">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                <span>Déconnexion</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay"></div>
+    
+    <!-- Main Content -->
+    <div class="main-content pb-20 lg:pb-0">
+        <!-- Header -->
+        <header class="bg-white shadow-md py-4 px-6 flex justify-between items-center sticky top-0 z-10">
+            <div class="flex items-center">
+                <button class="menu-toggle lg:hidden mr-4">
+                    <i class="fas fa-bars text-gray-700 text-xl"></i>
+                </button>
+                <h1 class="text-xl font-semibold text-gray-800">Tableau de bord</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="relative">
+                    <i class="fas fa-bell text-gray-600"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">3</span>
+                </button>
+                <div class="flex items-center space-x-3 lg:hidden">
+                    <div class="w-8 h-8 bg-gray-200 rounded-full overflow-hidden">
+                        <img src="/api/placeholder/32/32" alt="Profil" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Dashboard Content -->
+        <div class="p-6">
+            <!-- Welcome Section -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 mb-1">Bienvenue,</p>
+                        <h2 class="text-2xl font-bold">Abdoulaye Ousmane Ali</h2>
+                    </div>
+                    <div class="hidden md:block">
+                        <button class="py-2 px-4 rounded-md btn-primary">
+                            <i class="fas fa-plus mr-2"></i>Ajouter des fonds
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Balances Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-primary bg-opacity-10 rounded-md flex items-center justify-center mr-3">
+                                <i class="fas fa-wallet text-primary"></i>
+                            </div>
+                            <span class="text-gray-700">Solde principal</span>
+                        </div>
+                        <div class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Actif</div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-2xl font-bold">28,450 FCFA</p>
+                            <p class="text-xs text-gray-500">Dernière activité: 12 mai 2025</p>
+                        </div>
+                        <button class="text-primary">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-orange-100 rounded-md flex items-center justify-center mr-3">
+                                <i class="fas fa-mobile-alt text-orange-500"></i>
+                            </div>
+                            <span class="text-gray-700">Orange Money</span>
+                        </div>
+                        <div class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Lié</div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-2xl font-bold">15,200 FCFA</p>
+                            <p class="text-xs text-gray-500">Dernière activité: 07 mai 2025</p>
+                        </div>
+                        <button class="text-primary">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-100 rounded-md flex items-center justify-center mr-3">
+                                <i class="fas fa-credit-card text-blue-500"></i>
+                            </div>
+                            <span class="text-gray-700">Carte Visa</span>
+                        </div>
+                        <div class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Liée</div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-2xl font-bold">****** €</p>
+                            <p class="text-xs text-gray-500">Expire: 09/28</p>
+                        </div>
+                        <button class="text-primary">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-4">Actions rapides</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="service-card flex flex-col items-center p-4 border rounded-lg">
+                        <div class="w-12 h-12 rounded-full bg-primary bg-opacity-10 flex items-center justify-center mb-3">
+                            <i class="fas fa-exchange-alt text-primary text-lg"></i>
+                        </div>
+                        <span class="text-sm text-center">Transfert compte à compte</span>
+                    </div>
+                    
+                    <div class="service-card flex flex-col items-center p-4 border rounded-lg">
+                        <div class="w-12 h-12 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center mb-3">
+                            <i class="fas fa-paper-plane text-secondary text-lg"></i>
+                        </div>
+                        <span class="text-sm text-center">Envoyer de l'argent</span>
+                    </div>
+                    
+                    <div class="service-card flex flex-col items-center p-4 border rounded-lg">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-credit-card text-green-600 text-lg"></i>
+                        </div>
+                        <span class="text-sm text-center">Paiement factures</span>
+                    </div>
+                    
+                    <div class="service-card flex flex-col items-center p-4 border rounded-lg">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-3">
+                            <i class="fas fa-qrcode text-purple-600 text-lg"></i>
+                        </div>
+                        <span class="text-sm text-center">Scanner pour payer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Sections -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Transactions Section -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
+                        <div class="p-6 border-b border-gray-100">
+                            <div class="flex justify-between items-center">
+                                <h3 class="text-lg font-semibold">Transactions récentes</h3>
+                                <a href="#" class="text-primary text-sm">Voir tout</a>
+                            </div>
+                        </div>
+                        <div class="divide-y divide-gray-100">
+                            <div class="transaction-item p-4 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-mobile-alt text-orange-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Orange Money → DivyTransfert</p>
+                                        <p class="text-xs text-gray-500">09 mai 2025, 14:32</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-green-600">+8,000 FCFA</p>
+                                    <p class="text-xs text-gray-500">Solde: 28,450 FCFA</p>
+                                </div>
+                            </div>
+                            
+                            <div class="transaction-item p-4 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-user-friends text-red-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Transfert à Fatima S.</p>
+                                        <p class="text-xs text-gray-500">07 mai 2025, 09:15</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-red-600">-5,000 FCFA</p>
+                                    <p class="text-xs text-gray-500">Solde: 20,450 FCFA</p>
+                                </div>
+                            </div>
+                            
+                            <div class="transaction-item p-4 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-signal text-blue-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Recharge Moov Airtel</p>
+                                        <p class="text-xs text-gray-500">05 mai 2025, 18:47</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-red-600">-2,500 FCFA</p>
+                                    <p class="text-xs text-gray-500">Solde: 25,450 FCFA</p>
+                                </div>
+                            </div>
+                            
+                            <div class="transaction-item p-4 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-credit-card text-green-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Dépôt Visa</p>
+                                        <p class="text-xs text-gray-500">03 mai 2025, 11:23</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-green-600">+15,000 FCFA</p>
+                                    <p class="text-xs text-gray-500">Solde: 27,950 FCFA</p>
+                                </div>
+                            </div>
+                            
+                            <div class="transaction-item p-4 flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-bolt text-purple-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Paiement facture électricité</p>
+                                        <p class="text-xs text-gray-500">01 mai 2025, 16:05</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold text-red-600">-7,500 FCFA</p>
+                                    <p class="text-xs text-gray-500">Solde: 12,950 FCFA</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment & Transfer Section -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow p-6 mb-6">
+                        <h3 class="text-lg font-semibold mb-4">Transfert express</h3>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-medium mb-2">Choisir un mode de paiement</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="payment-method-card active rounded-lg p-3 flex flex-col items-center">
+                                    <div class="w-8 h-8 flex items-center justify-center mb-1">
+                                        <i class="fas fa-mobile-alt text-orange-500"></i>
+                                    </div>
+                                    <span class="text-xs text-center">Orange Money</span>
+                                </div>
+                                <div class="payment-method-card rounded-lg p-3 flex flex-col items-center">
+                                    <div class="w-8 h-8 flex items-center justify-center mb-1">
+                                        <i class="fas fa-signal text-blue-500"></i>
+                                    </div>
+                                    <span class="text-xs text-center">Moov Airtel</span>
+                                </div>
+                                <div class="payment-method-card rounded-lg p-3 flex flex-col items-center">
+                                    <div class="w-8 h-8 flex items-center justify-center mb-1">
+                                        <i class="fas fa-credit-card text-blue-500"></i>
+                                    </div>
+                                    <span class="text-xs text-center">Visa</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-medium mb-2">Type de transfert</label>
+                            <select class="w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-20">
+                                <option>Compte à compte</option>
+                                <option>Vers numéro mobile</option>
+                                <option>Retrait sans carte</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-medium mb-2">Destinataire</label>
+                            <div class="relative">
+                                <input type="text" class="w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-20 pl-10" placeholder="Rechercher ou entrer un numéro">
+                                <div class="absolute left-3 top-3 text-gray-400">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-medium mb-2">Montant</label>
+                            <div class="relative">
+                                <input type="text" class="w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-20 pr-14" placeholder="0">
+                                <div class="absolute right-3 top-2.5 text-gray-500">
+                                    <span class="font-medium">FCFA</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-medium mb-2">Message (optionnel)</label>
+                            <input type="text" class="w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-20" placeholder="Ajouter un message">
+                        </div>
+                        
+                        <button class="w-full py-3 btn-primary rounded-md font-medium">
+                            Envoyer maintenant
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold">Bénéficiaires récents</h3>
+                            <a href="#" class="text-primary text-sm">Voir tout</a>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden mr-3">
+                                        <img src="/api/placeholder/40/40" alt="Bénéficiaire" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Fatima S.</p>
+                                        <p class="text-xs text-gray-500">Orange Money</p>
+                                    </div>
+                                </div>
+                                <button class="text-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden mr-3">
+                                        <img src="/api/placeholder/40/40" alt="Bénéficiaire" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Ibrahim M.</p>
+                                        <p class="text-xs text-gray-500">Moov Airtel</p>
+                                    </div>
+                                </div>
+                                <button class="text-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden mr-3">
+                                        <img src="/api/placeholder/40/40" alt="Bénéficiaire" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Kadidja O.</p>
+                                        <p class="text-xs text-gray-500">Visa</p>
+                                    </div>
+                                </div>
+                                <button class="text-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Analytics Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                <!-- Activity Chart -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold">Activité du compte</h3>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 text-xs bg-blue-50 text-primary rounded-full">Semaine</button>
+                            <button class="px-3 py-1 text-xs text-gray-500 hover:bg-gray-100 rounded-full">Mois</button>
+                            <button class="px-3 py-1 text-xs text-gray-500 hover:bg-gray-100 rounded-full">Année</button>
+                        </div>
+                    </div>
+                    
+                    <div class="h-64">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Category Spending -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold">Dépenses par catégorie</h3>
+                        <select class="text-sm border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-20">
+                            <option>Ce mois</option>
+                            <option>Dernier mois</option>
+                            <option>3 derniers mois</option>
+                        </select>
+                    </div>
+                    
+                    <div class="h-64">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Promotions & Offers -->
+            <div class="bg-white rounded-lg shadow p-6 mt-6">
+                <h3 class="text-lg font-semibold mb-4">Offres et promotions</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="rounded-lg bg-gradient-to-r from-primary to-accent p-5 text-white">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2">Parrainage ami</h4>
+                                <p class="text-sm opacity-90 mb-4">Invitez vos amis et gagnez 1,000 FCFA pour chaque inscription</p>
+                                <button class="px-4 py-2 bg-white text-primary rounded-md text-sm font-medium">
+                                    Inviter maintenant
+                                </button>
+                            </div>
+                            <div class="w-16 h-16 flex items-center justify-center">
+                                <i class="fas fa-gift text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="rounded-lg bg-gradient-to-r from-secondary to-yellow-500 p-5 text-white">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2">Transfert sans frais</h4>
+                                <p class="text-sm opacity-90 mb-4">0% de frais sur tous les transferts jusqu'au 15 mai 2025</p>
+                                <button class="px-4 py-2 bg-white text-secondary rounded-md text-sm font-medium">
+                                    En profiter
+                                </button>
+                            </div>
+                            <div class="w-16 h-16 flex items-center justify-center">
+                                <i class="fas fa-percentage text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Support Section -->
+            <div class="bg-white rounded-lg shadow p-6 mt-6 mb-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-lg font-semibold">Besoin d'aide ?</h3>
+                        <p class="text-gray-600">Notre équipe de support est disponible 24/7</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button class="py-2 px-4 border border-primary text-primary rounded-md hover:bg-primary hover:text-white transition-all">
+                            <i class="fas fa-comment-alt mr-2"></i>Chat en direct
+                        </button>
+                        <button class="py-2 px-4 bg-primary text-white rounded-md hover:bg-accent transition-all">
+                            <i class="fas fa-phone-alt mr-2"></i>Appeler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle')?.addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('open');
+            document.querySelector('.mobile-overlay').classList.toggle('open');
+        });
+        
+        document.querySelector('.mobile-overlay')?.addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.querySelector('.mobile-overlay').classList.remove('open');
+        });
+        
+        // Payment method selection
+        const paymentCards = document.querySelectorAll('.payment-method-card');
+        paymentCards.forEach(card => {
+            card.addEventListener('click', function() {
+                paymentCards.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Activity Chart
+        const activityCtx = document.getElementById('activityChart');
+        if (activityCtx) {
+            new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                    datasets: [
+                        {
+                            label: 'Dépenses',
+                            data: [5000, 7500, 3000, 6000, 12000, 8000, 4500],
+                            borderColor: '#ff6b35',
+                            backgroundColor: 'rgba(255, 107, 53, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Revenus',
+                            data: [8000, 2000, 0, 15000, 0, 0, 8000],
+                            borderColor: '#0057a5',
+                            backgroundColor: 'rgba(0, 87, 165, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' F';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Category Chart
+        const categoryCtx = document.getElementById('categoryChart');
+        if (categoryCtx) {
+            new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Transferts', 'Factures', 'Recharges', 'Achats', 'Autres'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            '#0057a5',
+                            '#ff6b35',
+                            '#1485e0',
+                            '#ffc09f',
+                            '#adb9c3'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

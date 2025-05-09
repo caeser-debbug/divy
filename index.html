@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divy Transfert - Votre partenaire de confiance</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --primary-color: #0057a5;
+            --secondary-color: #ff6b35;
+            --accent-color: #1485e0;
+            --light-color: #f8fafc;
+            --dark-color: #1e3a5c;
+        }
+        
+        .bg-primary { background-color: var(--primary-color); }
+        .bg-secondary { background-color: var(--secondary-color); }
+        .bg-accent { background-color: var(--accent-color); }
+        .text-primary { color: var(--primary-color); }
+        .text-secondary { color: var(--secondary-color); }
+        .border-primary { border-color: var(--primary-color); }
+        .border-secondary { border-color: var(--secondary-color); }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #004a8c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e55a2a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .wave-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .wave-bg::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            border-radius: 40%;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.8), rgba(255, 107, 53, 0.4));
+            animation: wave 15s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 1rem;
+            background-color: rgba(0, 87, 165, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .menu-icon {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                margin-top: 1rem;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .login-section {
+                margin-top: 1rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4 px-6 fixed w-full top-0 z-50">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center navbar">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold">
+                        <span class="text-primary">Divy</span><span class="text-secondary">Transfert</span>
+                    </div>
+                    <div class="menu-icon ml-4 md:hidden">
+                        <i class="fas fa-bars text-primary text-xl"></i>
+                    </div>
+                </div>
+                <div class="nav-menu hidden md:flex space-x-6">
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium">Accueil</a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium">À propos</a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium">Services</a>
+                    <a href="#" class="text-gray-700 hover:text-primary font-medium">Tarifs</a>
+                    <a href="dashboard.html" class="text-gray-700 hover:text-primary font-medium">Dashboard</a>
+                </div>
+                <div class="login-section hidden md:flex space-x-3">
+                    <a href="#" class="py-2 px-4 rounded-md btn-outline">Se connecter</a>
+                    <a href="#" class="py-2 px-4 rounded-md btn-primary">S'inscrire</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="pt-24 pb-12 md:pt-32 md:pb-20 relative overflow-hidden">
+        <div class="wave-bg"></div>
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-3xl md:text-5xl font-bold text-dark-color mb-4">Votre partenaire de confiance</h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8">Transferts d'argent rapides, sécurisés et accessibles partout dans le monde</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#" class="py-3 px-6 rounded-md btn-primary text-center">Envoyer de l'argent</a>
+                        <a href="#" class="py-3 px-6 rounded-md btn-secondary text-center">Créer un compte</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="logo.png" alt="Transfert d'argent" class="rounded-lg shadow-xl max-w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-dark-color mb-12">Pourquoi choisir DivyTransfert?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card bg-white p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-color">Rapide</h3>
+                    </div>
+                    <p class="text-gray-600">Envoyez de l'argent en quelques clics, réception instantanée pour vos proches.</p>
+                </div>
+                <div class="card bg-white p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-color">Sécurisé</h3>
+                    </div>
+                    <p class="text-gray-600">Protection maximale de vos données et transactions avec une technologie de pointe.</p>
+                </div>
+                <div class="card bg-white p-6 shadow-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-dark-color">International</h3>
+                    </div>
+                    <p class="text-gray-600">Envoyez de l'argent dans plus de 150 pays avec des taux compétitifs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login/Signup Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="bg-gradient-to-r from-primary to-accent rounded-xl shadow-xl overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8 md:p-12">
+                        <h2 class="text-2xl md:text-3xl font-bold text-white mb-6" style="color: #1485e0;">Connectez-vous à votre compte</h2>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-white mb-2" style="color: #e55a2a;">Numéro de téléphone</label>
+                                <div class="flex">
+                                    <div class="bg-white py-2 px-3 rounded-l-md border-r border-gray-300 flex items-center">
+                                        <div class="flex items-center">
+                                            <img src="niger.png" alt="Drapeau" class="h-4 w-6 mr-1">
+                                            <span>+227</span>
+                                        </div>
+                                    </div>
+                                    <input type="tel" class="flex-1 py-2 px-3 rounded-r-md border-0 focus:ring-2 focus:ring-primary" placeholder="Entrez votre numéro">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-white mb-2" style="color: #e55a2a;">Mot de passe</label>
+                                <div class="relative">
+                                    <input type="password" class="w-full py-2 px-3 rounded-md border-0 focus:ring-2 focus:ring-primary" placeholder="Entrez votre mot de passe">
+                                    <div class="absolute right-3 top-2 text-gray-500 cursor-pointer">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remember" class="rounded text-primary focus:ring-primary mr-2">
+                                    <label for="remember" class="text-blue-500">Se souvenir de moi</label>
+                                </div>
+                                <a href="#" class="text-white hover:underline">Mot de passe oublié?</a>
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full py-3 btn-secondary rounded-md font-medium">Se connecter</button>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-gray-300">Ou se connecter avec</p>
+                                <div class="flex justify-center space-x-4 mt-3">
+                                    <a href="#" class="bg-white w-10 h-10 rounded-full flex items-center justify-center">
+                                        <i class="fab fa-google text-gray-700"></i>
+                                    </a>
+                                    <a href="#" class="bg-white w-10 h-10 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-fingerprint text-gray-700"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="hidden md:block md:w-1/2 bg-gradient-to-br from-secondary to-orange-400 p-12 text-white">
+                        <div class="h-full flex flex-col justify-center">
+                            <h3 class="text-2xl font-bold mb-4" style="color: #1485e0;">Nouveau chez DivyTransfert?</h3>
+                            <p class="mb-6">Créez un compte gratuit et commencez à envoyer de l'argent à vos proches partout dans le monde.</p>
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center" style="color: #e55a2a;">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    <span style="color: #e55a2a;">Transferts rapides et sécurisés</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle mr-2" style="color: #e55a2a;"></i>
+                                    <span style="color: #e55a2a;">Frais compétitifs et transparents</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle mr-2" style="color: #e55a2a;"></i>
+                                    <span style="color: #e55a2a;">Application mobile simple d'utilisation</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle mr-2" style="color: #e55a2a;"></i>
+                                    <span style="color: #e55a2a;">Service client disponible 24/7</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="py-3 px-6 bg-white text-secondary rounded-md font-medium text-center hover:bg-gray-100 transition">Créer un compte</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="md:hidden mt-8 text-center">
+                <h3 class="text-xl font-bold mb-4" style="color: #e55a2a;">Nouveau chez DivyTransfert?</h3>
+                <a href="#" class="py-3 px-6 btn-secondary rounded-md font-medium inline-block">Créer un compte</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- User Dashboard Preview (Mobile Version) -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-dark-color mb-12">Une application mobile intuitive</h2>
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h3 class="text-2xl font-semibold mb-4">Gérez vos transferts d'argent facilement</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-primary rounded-full p-2 mr-4 mt-1">
+                                <i class="fas fa-mobile-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Interface utilisateur intuitive</h4>
+                                <p class="text-gray-600">Navigation simple et rapide pour tous les utilisateurs, même les débutants.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary rounded-full p-2 mr-4 mt-1">
+                                <i class="fas fa-exchange-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Multiples options de transfert</h4>
+                                <p class="text-gray-600">Envoyez de l'argent à des comptes, retirez en espèces ou payez des factures.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary rounded-full p-2 mr-4 mt-1">
+                                <i class="fas fa-bell text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Notifications en temps réel</h4>
+                                <p class="text-gray-600">Suivez vos transactions et recevez des alertes instantanées.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-5/12">
+                    <div class="relative">
+                        <div class="bg-white rounded-3xl shadow-xl p-4 mx-auto max-w-xs">
+                            <div class="bg-secondary rounded-t-2xl py-4 px-4">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-bars text-white mr-4"></i>
+                                        <span class="text-white font-medium text-lg">DivyTransfert</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-bell text-white mr-4"></i>
+                                        <i class="fas fa-question-circle text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-4 pb-6 px-4">
+                                <div class="flex items-center mb-6">
+                                    <div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden mr-3">
+                                        <img src="/api/placeholder/48/48" alt="Profil" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Bienvenue,</p>
+                                        <p class="font-medium">Abdoulaye Ousmane Ali</p>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-100 rounded-lg p-4 mb-6">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-gray-500">N° de téléphone</span>
+                                        <i class="fas fa-cog text-primary"></i>
+                                    </div>
+                                    <p class="text-lg font-medium mb-1">+227 88 37 18 17</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-bold">1 595 FCFA</span>
+                                        <button class="bg-primary text-white px-3 py-1 rounded-md text-sm">Afficher</button>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center text-center shadow-sm">
+                                        <i class="fas fa-paper-plane text-primary mb-2"></i>
+                                        <span class="text-sm">Envoyer de l'argent</span>
+                                    </div>
+                                    <div class="bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center text-center shadow-sm">
+                                        <i class="fas fa-user-friends text-primary mb-2"></i>
+                                        <span class="text-sm">Transfert compte à compte</span>
+                                    </div>
+                                    <div class="bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center text-center shadow-sm">
+                                        <i class="fas fa-sync-alt text-primary mb-2"></i>
+                                        <span class="text-sm">Envoyer à moi-même</span>
+                                    </div>
+                                    <div class="bg-white border border-gray-200 rounded-lg p-3 flex flex-col items-center text-center shadow-sm">
+                                        <i class="fas fa-university text-primary mb-2"></i>
+                                        <span class="text-sm">Banque</span>
+                                    </div>
+                                </div>
+                                <div class="bg-primary bg-opacity-10 rounded-lg p-3 flex items-center justify-center">
+                                    <i class="fas fa-qrcode text-primary mr-2"></i>
+                                    <span class="text-primary font-medium">Scanner pour payer</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-around py-3 border-t border-gray-200">
+                                <div class="flex flex-col items-center">
+                                    <i class="fas fa-home text-secondary"></i>
+                                    <span class="text-xs mt-1">Accueil</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <i class="fas fa-history text-gray-400"></i>
+                                    <span class="text-xs mt-1">Historique</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <i class="fas fa-arrow-right text-gray-400"></i>
+                                    <span class="text-xs mt-1">Services</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                    <span class="text-xs mt-1">Profil</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+    <!-- CTA Section -->
+    <section class="py-16 bg-primary">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-white mb-4">Prêt à commencer?</h2>
+                <p class="text-white text-lg mb-8 max-w-2xl mx-auto">Rejoignez les milliers d'utilisateurs qui font confiance à DivyTransfert pour leurs transferts d'argent rapides et sécurisés.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center mt-8">
+                    <a href="#" class="py-3 px-8 rounded-md bg-white text-primary font-medium hover:bg-gray-100 transition transform hover:-translate-y-1">Télécharger l'application</a>
+                    <a href="#" class="py-3 px-8 rounded-md bg-secondary text-white font-medium hover:bg-opacity-90 transition transform hover:-translate-y-1">Créer un compte</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-dark-color mb-12">Questions fréquentes</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="mb-6">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="flex justify-between items-center p-4 cursor-pointer faq-question">
+                            <h3 class="font-medium text-lg">Comment créer un compte DivyTransfert?</h3>
+                            <i class="fas fa-chevron-down text-primary"></i>
+                        </div>
+                        <div class="p-4 border-t border-gray-200 faq-answer hidden">
+                            <p class="text-gray-600">Pour créer un compte, téléchargez notre application mobile ou visitez notre site web. Cliquez sur "Créer un compte", entrez votre numéro de téléphone et suivez les instructions pour vérifier votre identité. Le processus ne prend que quelques minutes!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="flex justify-between items-center p-4 cursor-pointer faq-question">
+                            <h3 class="font-medium text-lg">Quels sont les frais pour envoyer de l'argent?</h3>
+                            <i class="fas fa-chevron-down text-primary"></i>
+                        </div>
+                        <div class="p-4 border-t border-gray-200 faq-answer hidden">
+                            <p class="text-gray-600">Nos frais varient en fonction du montant envoyé, du pays de destination et de la méthode de paiement choisie. Vous pouvez consulter nos tarifs transparents directement dans l'application avant de confirmer votre transaction.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="flex justify-between items-center p-4 cursor-pointer faq-question">
+                            <h3 class="font-medium text-lg">Combien de temps faut-il pour recevoir l'argent?</h3>
+                            <i class="fas fa-chevron-down text-primary"></i>
+                        </div>
+                        <div class="p-4 border-t border-gray-200 faq-answer hidden">
+                            <p class="text-gray-600">La plupart des transferts sont instantanés, surtout entre comptes DivyTransfert. Pour les transferts vers des comptes bancaires, le délai peut varier de quelques minutes à 1-2 jours ouvrables selon la banque et le pays destinataire.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="flex justify-between items-center p-4 cursor-pointer faq-question">
+                            <h3 class="font-medium text-lg">Comment puis-je contacter le service client?</h3>
+                            <i class="fas fa-chevron-down text-primary"></i>
+                        </div>
+                        <div class="p-4 border-t border-gray-200 faq-answer hidden">
+                            <p class="text-gray-600">Notre service client est disponible 24/7. Vous pouvez nous contacter par chat dans l'application, par email à support@divytransfert.com ou par téléphone au +227 80 00 00 00. Nous sommes là pour vous aider!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-dark-color text-white pt-12 pb-6">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="text-2xl font-bold mb-6">
+                        <span class="text-white">Divy</span><span class="text-secondary">Transfert</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">Votre partenaire de confiance pour les transferts d'argent rapides et sécurisés partout dans le monde.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-opacity-30 transition">
+                            <i class="fab fa-facebook-f text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-opacity-30 transition">
+                            <i class="fab fa-twitter text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-opacity-30 transition">
+                            <i class="fab fa-instagram text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-opacity-30 transition">
+                            <i class="fab fa-linkedin-in text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Transferts nationaux</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Transferts internationaux</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Paiements marchands</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Transferts bancaires</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Recharges mobiles</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Entreprise</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">À propos de nous</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Carrières</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Partenaires</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Nous contacter</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Aide</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Centre d'aide</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">FAQ</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Sécurité</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Conditions d'utilisation</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-700 text-center md:flex md:justify-between md:items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">&copy; 2025 DivyTransfert. Tous droits réservés.</p>
+                <div class="flex flex-wrap justify-center space-x-4">
+                    <img src="/api/placeholder/40/24" alt="Visa" class="h-6">
+                    <img src="/api/placeholder/40/24" alt="Mastercard" class="h-6">
+                    <img src="/api/placeholder/40/24" alt="Orange Money" class="h-6">
+                    <img src="/api/placeholder/40/24" alt="MTN Money" class="h-6">
+                    <img src="/api/placeholder/40/24" alt="Wave" class="h-6">
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.menu-icon').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+            document.querySelector('.login-section').classList.toggle('hidden');
+        });
+        
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                if (answer.classList.contains('hidden')) {
+                    answer.classList.remove('hidden');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    answer.classList.add('hidden');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+        
+        // Show/Hide Password
+        const passwordToggle = document.querySelector('.fa-eye');
+        if (passwordToggle) {
+            passwordToggle.addEventListener('click', function() {
+                const passwordInput = this.parentElement.previousElementSibling;
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
