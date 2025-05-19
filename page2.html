@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divy Transfert - Transactions Sécurisées</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap'>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'divy-blue': '#5bc4ff',
+                        'divy-blue-dark': '#4da9e8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #5bc4ff;
+            font-family: 'Comfortaa', sans-serif;
+        }
+        
+        .phone-container {
+            max-width: 375px;
+            margin: 0 auto;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+        }
+        
+        .status-bar {
+            height: 44px;
+            padding: 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #5bc4ff;
+        }
+        
+        .check-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #8BC34A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px auto;
+        }
+        
+        .transaction-details {
+            background-color: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 16px 0;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .copy-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            margin-left: 8px;
+        }
+        
+        .page-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .indicator.active {
+            background-color: white;
+            width: 24px;
+            border-radius: 5px;
+        }
+        
+        .bottom-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            gap: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container bg-white">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div>9:41</div>
+            <div class="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 14.586L4.707 7.293 3.293 8.707 12 17.414 20.707 8.707 19.293 7.293z"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="bg-divy-blue p-4">
+            <div class="flex items-center">
+                <button class="text-black">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="check-circle">
+                <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            
+            <div class="text-center mb-6">
+                <h2 class="text-3xl font-bold text-black">250,00€</h2>
+                <p class="text-black opacity-70">Envoyé à Ronald Richards</p>
+                <p class="text-black opacity-70 text-sm">ronald.richards@gmail.com</p>
+            </div>
+            
+            <div class="transaction-details">
+                <div class="detail-row">
+                    <span class="text-black opacity-70">Vous avez envoyé</span>
+                    <span class="font-semibold text-black">250,00€</span>
+                </div>
+                <div class="detail-row">
+                    <span class="text-black opacity-70">À</span>
+                    <span class="font-semibold text-black">Ronald Richards</span>
+                </div>
+                <div class="detail-row">
+                    <span class="text-black opacity-70">Email</span>
+                    <span class="font-semibold text-black">ronald.richards@gmail.com</span>
+                </div>
+                <div class="detail-row">
+                    <span class="text-black opacity-70">Date</span>
+                    <span class="font-semibold text-black">24 déc. 2023 - 08:15</span>
+                </div>
+                <div class="detail-row">
+                    <span class="text-black opacity-70">ID de transaction</span>
+                    <div class="flex items-center">
+                        <span class="font-semibold text-black">24122023815</span>
+                        <button class="copy-button text-divy-blue">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <span class="text-black opacity-70">ID de référence</span>
+                    <div class="flex items-center">
+                        <span class="font-semibold text-black">F7H2KDX7</span>
+                        <button class="copy-button text-divy-blue">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Section -->
+        <div class="px-6 pt-16 pb-6 bg-black text-center">
+            <h2 class="text-2xl font-bold text-white mb-4">Transactions sûres et sécurisées</h2>
+            <p class="text-white opacity-80 mb-12">
+                Vos données financières sont cryptées et stockées en toute sécurité, garantissant que votre argent est entre de bonnes mains.
+            </p>
+            
+            <div class="page-indicator">
+                <div class="indicator"></div>
+                <div class="indicator active"></div>
+                <div class="indicator"></div>
+            </div>
+            
+            <div class="bottom-buttons">
+                <button class="py-3 px-6 rounded-full border border-white text-white flex-1 font-medium">
+                    Passer
+                </button>
+                <button class="py-3 px-6 rounded-full bg-divy-blue text-black flex-1 font-medium">
+                    Continuer
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
